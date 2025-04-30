@@ -13,9 +13,8 @@ export const DisplayListArticles = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteArticle,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["articles"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["articles"] });
+      console.log("GG");
     },
   });
 

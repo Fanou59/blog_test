@@ -27,7 +27,16 @@ export const deleteArticle = async (id: number) => {
   if (!response.ok) {
     throw new Error("Erreur lors de la suppression de l'article");
   }
-  return response.json();
+  console.log(response);
+  // Vérifiez si le serveur retourne un corps de réponse
+  if (response.status !== 204) {
+    try {
+      return await response.json();
+    } catch {
+      // Si le serveur ne retourne pas de JSON, ne rien faire
+      console.warn("Aucun contenu JSON retourné après suppression.");
+    }
+  }
 };
 
 export const formattedDate = (date: string) => {
