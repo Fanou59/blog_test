@@ -16,7 +16,6 @@ export const FormArticle = () => {
     },
   });
 
-  // fonction qui doit utiliser la mutation
   const submitArticle: SubmitHandler<Article> = (data) => {
     const completeData = {
       ...data,
@@ -24,7 +23,6 @@ export const FormArticle = () => {
       categorie: "defaut",
       createdAt: new Date().toISOString(),
     };
-    console.log("Données envoyées : ", completeData);
     addMutation.mutate(completeData);
   };
 
