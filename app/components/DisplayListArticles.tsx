@@ -31,7 +31,14 @@ export const DisplayListArticles = () => {
       <div className="flex flex-col space-y-2 w-full items-center">
         {data.member.map((article) => {
           if (deleteMutation.variables === article.id) {
-            return <div key={article.id}>deleting...</div>;
+            return (
+              <div
+                className="card w-96 bg-base-100 card-xs shadow-sm p-4 flex flex-row items-center"
+                key={article.id}
+              >
+                <span className="card-title">Deleting...</span>
+              </div>
+            );
           }
           return (
             <ListArticles
