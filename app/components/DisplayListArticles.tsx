@@ -14,7 +14,6 @@ export const DisplayListArticles = () => {
     mutationFn: deleteArticle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["articles"] });
-      console.log("GG");
     },
   });
 
@@ -29,16 +28,6 @@ export const DisplayListArticles = () => {
     <>
       <div className="flex flex-col space-y-2 w-full items-center">
         {data.member.map((article) => {
-          if (deleteMutation.variables === article.id) {
-            return (
-              <div
-                className="card w-96 bg-base-100 card-xs shadow-sm p-4 flex flex-row items-center"
-                key={article.id}
-              >
-                <span className="card-title">Deleting...</span>
-              </div>
-            );
-          }
           return (
             <ListArticles
               key={article.id}
@@ -47,7 +36,13 @@ export const DisplayListArticles = () => {
               title={article.title}
               author={article.author}
               onDelete={handleDeleteArticle}
-            />
+            >
+              {deleteMutation.variables === article.id ? (
+                <span className="loading loading-spinner text-primary"></span>
+              ) : (
+                "Delete"
+              )}
+            </ListArticles>
           );
         })}
       </div>
