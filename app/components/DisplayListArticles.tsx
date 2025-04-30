@@ -4,7 +4,7 @@ import { getArticles, formattedDate, deleteArticle } from "../utils/functions";
 import { ListArticles } from "./ListArticles";
 
 export const DisplayListArticles = () => {
-  const { data, error, isPending } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["articles"],
     queryFn: getArticles,
   });
@@ -24,21 +24,26 @@ export const DisplayListArticles = () => {
   };
 
   if (error) return <div>échec du chargement</div>;
-  if (isPending) return <div>chargement...</div>;
+  if (isLoading) return <div>chargement...</div>;
   if (!data) return <div>Aucune donnée disponible...</div>;
   return (
     <>
       <div className="flex flex-col space-y-2 w-full items-center">
-        {data.member.map((article) => (
-          <ListArticles
-            key={article.id}
-            id={article.id}
-            createdAt={formattedDate(article.createdAt)}
-            title={article.title}
-            author={article.author}
-            onDelete={handleDeleteArticle}
-          />
-        ))}
+        {data.member.map((article) => {
+          if (deleteMutation.variables === article.id) {
+            return <div key={article.id}>deleting...</div>;
+          }
+          return (
+            <ListArticles
+              key={article.id}
+              id={article.id}
+              createdAt={formattedDate(article.createdAt)}
+              title={article.title}
+              author={article.author}
+              onDelete={handleDeleteArticle}
+            />
+          );
+        })}
       </div>
     </>
   );
